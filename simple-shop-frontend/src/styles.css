@@ -1,0 +1,52 @@
+@import "@angular/material/prebuilt-themes/azure-blue.css"; /* Or the theme you chose */
+
+/* Basic Reset & Defaults */
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  line-height: 1.5;
+  background-color: #fafafa; /* Slightly off-white background */
+}
+* { box-sizing: border-box; }
+a { color: inherit; text-decoration: none; } /* Default link style reset */
+
+/* Utility Classes */
+.container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.loading-indicator, .error-message, .info-message {
+  text-align: center;
+  padding: 30px 15px;
+  margin-top: 20px;
+  border-radius: 4px;
+}
+.loading-indicator { color: #555; }
+.error-message { background-color: #fdd; border: 1px solid #fbb; color: #d8000c; }
+.info-message { background-color: #eef; border: 1px solid #dde; color: #555; }
+.text-center { text-align: center; }
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+
+/* Basic Form Styles (often enhanced by Material) */
+.form-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border: 1px solid #eee;
+    background-color: #fff;
+    border-radius: 5px;
+}
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+button[type="submit"] {
+    display: block;
+    width: 100%;
+    margin-top: 1.5rem;
+}

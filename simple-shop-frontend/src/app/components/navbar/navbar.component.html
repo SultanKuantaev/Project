@@ -1,0 +1,33 @@
+<mat-toolbar color="primary" class="navbar">
+    <a routerLink="/" class="brand"><span>Simple Shop</span></a>
+    <span class="spacer"></span>
+    <a mat-button routerLink="/products">Products</a>
+  
+    <!-- Logged In User -->
+    <ng-container *ngIf="isLoggedIn$ | async as isLoggedIn">
+      <a mat-button routerLink="/orders">My Orders</a>
+      <button mat-icon-button [matMenuTriggerFor]="userMenu" #userMenuTrigger="matMenuTrigger">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item disabled>
+          <mat-icon>person</mat-icon>
+          <span>{{ (currentUser$ | async)?.username }}</span>
+        </button>
+        <button mat-menu-item (click)="logout()"> <!-- (click) Event for Logout -->
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+    </ng-container>
+  
+    <!-- Logged Out User -->
+    <ng-container *ngIf="!(isLoggedIn$ | async)">
+      <a mat-button routerLink="/login">Login</a>
+      <a mat-button routerLink="/register">Register</a>
+    </ng-container>
+  
+    <a mat-icon-button routerLink="/cart" matBadgeColor="accent" [matBadge]="cartItemCount$ | async" [matBadgeHidden]="(cartItemCount$ | async) === 0">
+      <mat-icon>shopping_cart</mat-icon>
+    </a>
+  </mat-toolbar>

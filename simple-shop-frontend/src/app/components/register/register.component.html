@@ -1,0 +1,52 @@
+<div class="form-container">
+    <h2>Register</h2>
+    <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+        <!-- Username -->
+        <mat-form-field appearance="outline" class="mb-1" style="width: 100%;">
+          <mat-label>Username</mat-label>
+          <input matInput type="text" name="username" required
+                 [(ngModel)]="userData.username" #regUsername="ngModel"> <!-- ngModel 3 -->
+          <mat-error *ngIf="regUsername.invalid && (regUsername.dirty || regUsername.touched)">Username is required</mat-error>
+        </mat-form-field>
+
+        <!-- Email -->
+        <mat-form-field appearance="outline" class="mb-1" style="width: 100%;">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" name="email" required email
+                 [(ngModel)]="userData.email" #regEmail="ngModel"> <!-- ngModel 4 -->
+          <mat-error *ngIf="regEmail.errors?.['required'] && (regEmail.dirty || regEmail.touched)">Email is required</mat-error>
+          <mat-error *ngIf="regEmail.errors?.['email'] && (regEmail.dirty || regEmail.touched)">Invalid email format</mat-error>
+        </mat-form-field>
+
+        <!-- Password -->
+        <mat-form-field appearance="outline" class="mb-1" style="width: 100%;">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" name="password" required minlength="6"
+                 [(ngModel)]="userData.password" #regPassword="ngModel"> <!-- ngModel 5 -->
+          <mat-error *ngIf="regPassword.errors?.['required'] && (regPassword.dirty || regPassword.touched)">Password is required</mat-error>
+          <mat-error *ngIf="regPassword.errors?.['minlength'] && (regPassword.dirty || regPassword.touched)">Password must be at least 6 characters</mat-error>
+        </mat-form-field>
+
+        <!-- Confirm Password -->
+        <mat-form-field appearance="outline" class="mb-1" style="width: 100%;">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput type="password" name="passwordConfirm" required
+                 [(ngModel)]="userData.password_confirm" #regPasswordConfirm="ngModel"> <!-- ngModel 6 -->
+           <mat-error *ngIf="regPasswordConfirm.errors?.['required'] && (regPasswordConfirm.dirty || regPasswordConfirm.touched)">Please confirm password</mat-error>
+           <mat-error *ngIf="userData.password !== userData.password_confirm && regPasswordConfirm.touched">Passwords do not match</mat-error>
+        </mat-form-field>
+
+        <!-- Error/Success Messages -->
+        <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+        <p *ngIf="successMessage" class="success-message">{{ successMessage }}</p>
+
+         <!-- Submit Button -->
+        <button mat-raised-button color="primary" type="submit"
+                [disabled]="registerForm.invalid || isLoading || userData.password !== userData.password_confirm">
+             {{ isLoading ? 'Registering...' : 'Register' }}
+        </button>
+    </form>
+     <p class="text-center mt-2">
+       Already have an account? <a routerLink="/login">Login here</a>
+     </p>
+</div>

@@ -1,0 +1,22 @@
+mat-card-header { align-items: center;} /* Vertically align header items */
+mat-card-content h4 { margin: 16px 0 8px 0; }
+.mat-mdc-list-item-line { color: rgba(0,0,0,0.6); font-size: 0.9em; }
+.order-item-detail { height: auto !important; padding-top: 8px; padding-bottom: 8px; } /* Allow multi-line items */
+.mat-mdc-list-base { padding-top: 0;} /* Reduce space above list */
+
+.item-line-total {
+   margin-left: auto; /* Pushes to the right */
+   font-weight: 500;
+   padding-left: 16px;
+   white-space: nowrap; /* Prevent wrapping */
+}
+
+/* Styling list items to spread content */
+:host ::ng-deep .order-item-detail .mdc-list-item__content {
+   display: flex;
+   justify-content: space-between;
+   width: 100%;
+}
+ :host ::ng-deep .order-item-detail .mat-mdc-list-item-unscoped-content {
+    display: contents; /* Allows flex properties from parent to apply */
+ }

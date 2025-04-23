@@ -1,0 +1,14 @@
+main.container {
+    padding: 20px 15px;
+    min-height: calc(100vh - 130px); /* Adjust if nav/footer height changes */
+  }
+  
+  footer {
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 20px;
+    background-color: #eee;
+    color: #666;
+    font-size: 0.9em;
+    border-top: 1px solid #ddd;
+  }

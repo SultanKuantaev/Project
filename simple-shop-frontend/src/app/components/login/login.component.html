@@ -1,0 +1,31 @@
+<div class="form-container">
+    <h2>Login</h2>
+    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+        <!-- Username -->
+        <mat-form-field appearance="outline" class="mb-1" style="width: 100%;">
+          <mat-label>Username</mat-label>
+          <input matInput type="text" id="username" name="username" required
+                 [(ngModel)]="credentials.username" #username="ngModel"> <!-- ngModel 1 -->
+          <mat-error *ngIf="username.invalid && (username.dirty || username.touched)">Username is required</mat-error>
+        </mat-form-field>
+
+        <!-- Password -->
+        <mat-form-field appearance="outline" class="mb-1" style="width: 100%;">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" id="password" name="password" required
+                 [(ngModel)]="credentials.password" #password="ngModel"> <!-- ngModel 2 -->
+           <mat-error *ngIf="password.invalid && (password.dirty || password.touched)">Password is required</mat-error>
+        </mat-form-field>
+
+        <!-- Error Message -->
+        <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+
+        <!-- Submit Button -->
+        <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || isLoading">
+            {{ isLoading ? 'Logging in...' : 'Login' }}
+        </button>
+    </form>
+    <p class="text-center mt-2">
+      Don't have an account? <a routerLink="/register">Register here</a>
+    </p>
+</div>

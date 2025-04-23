@@ -1,0 +1,65 @@
+<h2 class="text-center mb-2">Your Shopping Cart</h2>
+
+<!-- Empty Cart Message - *ngIf - Remains the same check -->
+<div *ngIf="(cartItems$ | async)?.length === 0; else cartContent" class="info-message">
+    Your cart is empty. <a routerLink="/products">Go Shopping!</a>
+</div>
+
+<!-- Cart Content -->
+<!-- Assign the result of (cartItems$ | async) to 'cartItems' template variable -->
+<ng-template #cartContent>
+    <div *ngIf="(cartItems$ | async) as cartItems"> <!-- Assign resolved value here -->
+        <div class="cart-items">
+            <!-- Cart Item Loop - *ngFor -->
+            <mat-card *ngFor="let item of cartItems" class="cart-item mb-1"> <!-- Use cartItems here -->
+                <div class="item-layout">
+                    <img [src]="item.product.image_url || 'assets/placeholder.png'" alt="{{ item.product.name }}" class="cart-item-image">
+                    <div class="item-details">
+                        <h4 class="mb-1">{{ item.product.name }}</h4>
+                        <p>Unit Price: {{ item.product.price | currency:'USD' }}</p>
+                        <!-- Quantity Input -->
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic" style="max-width: 100px;">
+                        <mat-label>Qty</mat-label>
+                        <!-- Using basic number input within MatFormField for better control -->
+                        <input matInput type="number"
+                                [ngModel]="item.quantity"
+                                (ngModelChange)="updateQuantity(item.product.id, $event)"
+                                min="0" [max]="item.product.stock">
+                        <mat-hint align="end">{{item.product.stock}} in stock</mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div class="item-actions">
+                        <p class="item-total">Subtotal: {{ (parseFloat(item.product.price) * item.quantity) | currency:'USD' }}</p>
+                        <!-- Remove Button - Click Event 5 -->
+                        <button mat-icon-button color="warn" (click)="removeFromCart(item.product.id)" title="Remove Item">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+
+        <!-- Cart Summary -->
+        <!-- Now use the 'cartItems' template variable directly for checks -->
+        <div class="cart-summary">
+            <h3>Total Items: {{ cartItemCount$ | async }}</h3> <!-- item count is separate observable -->
+            <h3>Total Price: {{ cartTotalPrice$ | async | currency:'USD' }}</h3> <!-- total price is separate observable -->
+            <button mat-raised-button color="warn" (click)="clearCart()"
+                    *ngIf="cartItems.length > 0" style="margin-right: 10px;"> <!-- Use cartItems.length -->
+                Clear Cart
+            </button>
+            <!-- Place Order Button -->
+            <button mat-raised-button color="primary" (click)="placeOrder()" class="checkout-btn"
+                    [disabled]="isLoading || cartItems.length === 0"> <!-- Use cartItems.length -->
+                <mat-icon>shopping_checkout</mat-icon>
+                {{ isLoading ? 'Placing Order...' : 'Place Order' }}
+            </button>
+            <p *ngIf="orderError" class="error-message mt-1">{{ orderError }}</p>
+            <p *ngIf="orderSuccess" class="success-message mt-1">{{ orderSuccess }}</p>
+        </div>
+    </div>
+
+    <!-- Optional: Add a small loading state if cartItems is null initially -->
+    <!-- <div *ngIf="(cartItems$ | async) === null">Loading cart...</div> -->
+
+</ng-template>

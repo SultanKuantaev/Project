@@ -1,0 +1,44 @@
+<h2 class="text-center mb-2">Products</h2>
+
+<!-- Loading Indicator -->
+<div *ngIf="isLoading" class="loading-indicator">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading products...</p>
+</div>
+
+<!-- Error Message -->
+<div *ngIf="errorMessage && !isLoading" class="error-message">
+    {{ errorMessage }}
+</div>
+
+<!-- Product Grid - ngFor -->
+<div *ngIf="!isLoading && !errorMessage" class="product-grid">
+    <mat-card *ngFor="let product of products" class="product-card">
+        <mat-card-header>
+            <mat-card-title>{{ product.name }}</mat-card-title>
+            <mat-card-subtitle>{{ product.category.name }}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image [src]="product.image_url || 'assets/placeholder.png'" alt="{{ product.name }}" class="product-image">
+        <mat-card-content>
+            <p class="product-description">{{ product.description | slice:0:100 }}...</p>
+            <p><strong>Price:</strong> {{ product.price | currency:'USD' }}</p>
+            <!-- ngIf/else for stock -->
+            <p *ngIf="product.stock > 0; else outOfStock">
+                <span class="in-stock">In Stock: {{ product.stock }}</span>
+            </p>
+            <ng-template #outOfStock><p class="out-of-stock">Out of Stock</p></ng-template>
+        </mat-card-content>
+        <mat-card-actions>
+            <!-- Disable button based on *ngIf condition -->
+            <button mat-raised-button color="primary" (click)="addToCart(product)" [disabled]="product.stock <= 0">
+               <mat-icon>add_shopping_cart</mat-icon> Add to Cart
+            </button>
+            <!-- <button mat-button>Details</button> -->
+        </mat-card-actions>
+    </mat-card>
+</div>
+
+<!-- No Products Message -->
+ <div *ngIf="!isLoading && !errorMessage && products.length === 0" class="info-message">
+     No products found.
+ </div>
